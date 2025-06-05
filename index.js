@@ -29,8 +29,8 @@ app.get('/subscribe', async (req, res) => {
   const { plan } = req.query;
 
   const priceLookup = {
-    starter: 'price_1234567890starter', // REPLACE with actual Stripe Price ID
-    pro: 'price_1234567890pro',         // REPLACE with actual Stripe Price ID
+    starter: 'price_1RQwvgQ7aI0fg0NlJQLVMok9', // ✅ Actual Starter Price ID
+    pro: 'price_1RQwwfQ7aI0fg0NlHxqF0ZDy'       // ✅ Actual Pro Price ID
   };
 
   const priceId = priceLookup[plan];
