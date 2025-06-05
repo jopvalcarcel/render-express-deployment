@@ -3,37 +3,126 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Plans | Valence Subscriptions</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+  <title>Plans | Valence Pro 2 Subscriptions</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      color: #333;
+    }
+    .plans-wrapper {
+      max-width: 800px;
+      width: 100%;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      padding: 2.5rem;
+      text-align: center;
+    }
+    h1 {
+      font-weight: 600;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #4e54c8;
+      letter-spacing: 1px;
+    }
+    .plans-container {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .plan-card {
+      flex: 1 1 300px;
+      background: #f9f9fb;
+      border-radius: 12px;
+      padding: 1.8rem 2rem;
+      box-shadow: 0 6px 18px rgba(78, 84, 200, 0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: box-shadow 0.3s;
+    }
+    .plan-card:hover {
+      box-shadow: 0 10px 28px rgba(78, 84, 200, 0.35);
+    }
+    .plan-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #4e54c8;
+      margin-bottom: 0.5rem;
+    }
+    .plan-price {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #3b82f6; /* Blue-500 */
+      margin-bottom: 1rem;
+    }
+    .plan-description {
+      flex-grow: 1;
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 1.8rem;
+    }
+    .subscribe-btn {
+      align-self: stretch;
+      background-color: #4e54c8;
+      color: white;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.85rem 0;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+    .subscribe-btn:hover {
+      background-color: #3c3fa1;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .plans-container {
+        flex-direction: column;
+      }
+      .plan-card {
+        align-items: center;
+        text-align: center;
+      }
+      .subscribe-btn {
+        align-self: center;
+        width: 100%;
+      }
+    }
+  </style>
 </head>
-<body class="bg-gray-100 font-sans text-gray-800">
-  <div class="min-h-screen flex flex-col items-center justify-center p-6">
-    <h1 class="text-3xl font-bold mb-8">Choose Your Plan</h1>
+<body>
+  <div class="plans-wrapper">
+    <h1>Choose Your Plan — Valence Pro 2</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
-
-      <!-- Starter Plan -->
-      <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-start">
-        <h2 class="text-2xl font-semibold mb-2">Starter</h2>
-        <p class="text-xl font-bold text-blue-600 mb-2">$20/month</p>
-        <p class="mb-4 text-gray-600">This is the Starter plan</p>
-        <a href="/subscribe?plan=starter"
-           class="mt-auto px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-          Subscribe
-        </a>
+    <div class="plans-container">
+      <div class="plan-card">
+        <div class="plan-title">Starter</div>
+        <div class="plan-price">$20 / month</div>
+        <div class="plan-description">Perfect for individuals and small projects.</div>
+        <a href="/subscribe?plan=starter" class="subscribe-btn">Subscribe</a>
       </div>
 
-      <!-- Pro Plan -->
-      <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-start">
-        <h2 class="text-2xl font-semibold mb-2">Pro</h2>
-        <p class="text-xl font-bold text-blue-600 mb-2">$40/month</p>
-        <p class="mb-4 text-gray-600">This is the Pro plan</p>
-        <a href="/subscribe?plan=pro"
-           class="mt-auto px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-          Subscribe
-        </a>
+      <div class="plan-card">
+        <div class="plan-title">Pro</div>
+        <div class="plan-price">$40 / month</div>
+        <div class="plan-description">Advanced features for professionals and teams.</div>
+        <a href="/subscribe?plan=pro" class="subscribe-btn">Subscribe</a>
       </div>
-
     </div>
   </div>
 </body>
