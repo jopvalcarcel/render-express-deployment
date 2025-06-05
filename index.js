@@ -28,9 +28,10 @@ app.get('/', (req, res) => {
 app.get('/subscribe', async (req, res) => {
   const { plan } = req.query;
 
+  // Updated with your actual Stripe Price IDs
   const priceLookup = {
-    starter: 'price_1RQwvgQ7aI0fg0NlJQLVMok9', // ✅ Actual Starter Price ID
-    pro: 'price_1RQwwfQ7aI0fg0NlHxqF0ZDy'       // ✅ Actual Pro Price ID
+    starter: 'price_1RQwvgQ7aI0fg0NlJQLVMok9',
+    pro: 'price_1RQwwfQ7aI0fg0NlHxqF0ZDy'
   };
 
   const priceId = priceLookup[plan];
@@ -55,8 +56,8 @@ app.get('/subscribe', async (req, res) => {
 
     res.redirect(session.url);
   } catch (err) {
-    console.error('Stripe session error:', err);
-    res.status(500).send('Internal Server Error');
+    console.error('❌ Stripe session error:', err); // log the full error
+    res.status(500).send(`Internal Server Error: ${err.message}`);
   }
 });
 
