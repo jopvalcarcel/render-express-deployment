@@ -5,7 +5,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// EJS view engine (optional, depending on if you're rendering templates)
+// EJS view engine
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
@@ -28,10 +28,9 @@ app.get('/', (req, res) => {
 app.get('/subscribe', async (req, res) => {
   const { plan } = req.query;
 
-  // Updated with your actual Stripe Price IDs
   const priceLookup = {
-    starter: 'price_1RQwvgQ7aI0fg0NlJQLVMok9',
-    pro: 'price_1RQwwfQ7aI0fg0NlHxqF0ZDy'
+    starter: 'price_1RQwvgQ7aI0fg0NlJQLVMok9', // ✅ Actual Starter Price ID
+    pro: 'price_1RQwwfQ7aI0fg0NlHxqF0ZDy'       // ✅ Actual Pro Price ID
   };
 
   const priceId = priceLookup[plan];
@@ -56,7 +55,7 @@ app.get('/subscribe', async (req, res) => {
 
     res.redirect(session.url);
   } catch (err) {
-    console.error('❌ Stripe session error:', err); // log the full error
+    console.error('❌ Stripe session error:', err.message);
     res.status(500).send(`Internal Server Error: ${err.message}`);
   }
 });
