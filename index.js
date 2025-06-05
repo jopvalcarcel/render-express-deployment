@@ -1,4 +1,4 @@
-require('dotenv').config(); // MUST be at the very top 
+require('dotenv').config(); // MUST be at the very top
 
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -49,8 +49,8 @@ app.get('/subscribe', async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: 'https://render-express-deployment-k27o.onrender.com/success',
-      cancel_url: 'https://render-express-deployment-k27o.onrender.com/cancel',
+      success_url: `${process.env.BASE_URL}/success`,
+      cancel_url: `${process.env.BASE_URL}/cancel`,
     });
 
     res.redirect(session.url);
