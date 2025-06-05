@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plans | Valence Subscriptions</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+  <div class="min-h-screen flex flex-col items-center justify-center p-6">
+    <h1 class="text-3xl font-bold mb-8">Choose Your Plan</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+
+      <!-- Starter Plan -->
+      <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-start">
+        <h2 class="text-2xl font-semibold mb-2">Starter</h2>
+        <p class="text-xl font-bold text-blue-600 mb-2">$20/month</p>
+        <p class="mb-4 text-gray-600">This is the Starter plan</p>
+        <a href="/subscribe?plan=starter"
+           class="mt-auto px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+          Subscribe
+        </a>
+      </div>
+
+      <!-- Pro Plan -->
+      <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-start">
+        <h2 class="text-2xl font-semibold mb-2">Pro</h2>
+        <p class="text-xl font-bold text-blue-600 mb-2">$40/month</p>
+        <p class="mb-4 text-gray-600">This is the Pro plan</p>
+        <a href="/subscribe?plan=pro"
+           class="mt-auto px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+          Subscribe
+        </a>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
