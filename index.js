@@ -1,32 +1,32 @@
-require('dotenv').config(); // MUST be at the very top
+require('dotenv').config(); // Load environment variables
 
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Set EJS as the view engine
+// Enable EJS templating
 app.set('view engine', 'ejs');
-
-// Middleware
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
-// Conditionally apply JSON middleware (skip for Stripe webhooks)
+// Use raw body only for Stripe webhooks
 app.use((req, res, next) => {
   if (req.originalUrl === '/webhook') {
-    next(); // Skip for raw body parsing
+    express.raw({ type: 'application/json' })(req, res, next);
   } else {
     express.json()(req, res, next);
   }
 });
 
-// Home page
+// ==================== ROUTES ====================
+
+// Home page with plan options
 app.get('/', (req, res) => {
-  res.render('index'); // Renders views/index.ejs
+  res.render('index'); // Make sure 'views/index.ejs' exists
 });
 
-// Handle subscription
+// Checkout subscription
 app.get('/subscribe', async (req, res) => {
   const { plan } = req.query;
 
@@ -45,12 +45,10 @@ app.get('/subscribe', async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'subscription',
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
+      line_items: [{
+        price: priceId,
+        quantity: 1,
+      }],
       success_url: 'https://render-express-deployment-k27o.onrender.com/success',
       cancel_url: 'https://render-express-deployment-k27o.onrender.com/cancel',
     });
@@ -62,48 +60,67 @@ app.get('/subscribe', async (req, res) => {
   }
 });
 
-// Success and cancel views
+// Success and cancel pages
 app.get('/success', (req, res) => {
-  res.render('success');
+  res.render('success'); // Make sure views/success.ejs exists
 });
 
 app.get('/cancel', (req, res) => {
-  res.render('cancel');
+  res.render('cancel'); // Make sure views/cancel.ejs exists
+});
+
+// Customer Portal Route
+app.get('/portal', async (req, res) => {
+  const customerId = 'cus_SRaBk8xGbfT3Zc'; // Replace with dynamic user data later
+
+  try {
+    const session = await stripe.billingPortal.sessions.create({
+      customer: customerId,
+      return_url: 'https://render-express-deployment-k27o.onrender.com/account',
+    });
+
+    res.redirect(session.url);
+  } catch (err) {
+    console.error('❌ Failed to create portal session:', err.message);
+    res.status(500).send('Could not redirect to customer portal.');
+  }
+});
+
+// After portal returns
+app.get('/account', (req, res) => {
+  res.send('<h2>Welcome back from the Stripe Customer Portal</h2><a href="/">Return Home</a>');
 });
 
 // Stripe Webhook
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET_KEY;
 
-app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+app.post('/webhook', (req, res) => {
   const sig = req.headers['stripe-signature'];
   let event;
 
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
   } catch (err) {
-    console.error('❌ Webhook signature verification failed:', err.message);
+    console.error('❌ Webhook Error:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // Handle events
+  // Log webhook events
   switch (event.type) {
     case 'checkout.session.completed':
-      console.log('✅ Checkout session completed.');
+      console.log('✅ Subscription completed');
       break;
     case 'invoice.paid':
-      console.log('💰 Invoice paid.');
+      console.log('💰 Invoice paid');
       break;
     case 'invoice.payment_failed':
-      console.log('❌ Invoice payment failed.');
+      console.log('❌ Invoice payment failed');
       break;
     case 'customer.subscription.updated':
-      console.log('🔄 Subscription updated.');
-      break;
-    case 'customer.subscription.deleted':
-      console.log('🗑️ Subscription canceled.');
+      console.log('🔄 Subscription updated');
       break;
     default:
-      console.log(`ℹ️ Unhandled event type: ${event.type}`);
+      console.log(`Unhandled event type: ${event.type}`);
   }
 
   res.status(200).json({ received: true });
@@ -111,5 +128,5 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
