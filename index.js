@@ -1,9 +1,15 @@
-require('dotenv').config(); // MUST be at the very top 
+require('dotenv').config(); // MUST be at the very top
 
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Log BASE_URL to verify it's loaded
+console.log('✅ BASE_URL:', process.env.BASE_URL);
+
+// Fallback base URL if not set (optional, but good practice)
+const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 
 // EJS view engine
 app.set('view engine', 'ejs');
@@ -21,7 +27,7 @@ app.use((req, res, next) => {
 
 // Home page with pricing plans
 app.get('/', (req, res) => {
-  res.render('index'); // make sure index.ejs is in the 'views' folder
+  res.render('index'); // Ensure index.ejs exists in 'views' folder
 });
 
 // Handle subscription creation
@@ -49,8 +55,8 @@ app.get('/subscribe', async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: 'https://render-express-deployment-k27o.onrender.com/success',
-      cancel_url: 'https://render-express-deployment-k27o.onrender.com/cancel',
+      success_url: `${BASE_URL}/success`,
+      cancel_url: `${BASE_URL}/cancel`,
     });
 
     res.redirect(session.url);
