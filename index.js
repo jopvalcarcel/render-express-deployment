@@ -31,8 +31,8 @@ app.get('/subscribe', async (req, res) => {
   const { plan } = req.query;
 
   const priceLookup = {
-    starter: 'price_1RQwvgQ7aI0fg0NlJQLVMok9',
-    pro: 'price_1RQwwfQ7aI0fg0NlHxqF0ZDy'
+    starter: 'price_1Ri1GKQ7aI0fg0NlCvuJWrAZ',
+    pro: 'price_1Ri1T9Q7aI0fg0Nl5y45vIvx'
   };
 
   const priceId = priceLookup[plan];
