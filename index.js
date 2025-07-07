@@ -32,7 +32,7 @@ app.get('/subscribe', async (req, res) => {
 
   const priceLookup = {
     starter: 'price_1Ri1GKQ7aI0fg0NlCvuJWrAZ',
-    pro: 'price_1Ri1T9Q7aI0fg0Nl5y45vIvx'
+    pro: 'price_1RiFWrQ7aI0fg0NlAwc5R2YZ'
   };
 
   const priceId = priceLookup[plan];
